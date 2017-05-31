@@ -1,17 +1,17 @@
 # BitPoker.IO
 
 ## Abstract
-Inspired by OpenBazaar.com, the goal of the project is to design a peer to peer protocol of turn based games, such as online poker, in which no central actor can control the outcome and thus rig the game and is provably fair.  The game uses bitcoin (or other digital tokens) and lightning network to settle bets between actors, and a blockchain to persist the state of the game.
+Inspired by OpenBazaar.com, the goal of the project is to design a peer to peer protocol of turn based games, such as online poker, in which no central actor can control the outcome and thus rig the game, and is provably fair.  The game uses bitcoin (or other digital tokens) and lightning network to settle bets between actors, and a blockchain to persist the state of the game.
 
-Most blockchains are too slow for turned based games, but not all turns need to persisted back to the blockchain.  For example, in poker, turns can be stored in memory on clients as "mini chains".  Only when the outcome of the game is required such as awarding the pot, is the data required to be persisted back to the blockchain.  Furthermore, players could agree this could be a higher cadence, such as each orbit, to save on fees.
+Most blockchains are too slow for turned based games, but not all turns need to be persisted back to the blockchain.  For example, in poker, turns can be stored in memory on clients as "mini chains".  Only when the outcome of the game is required (such as awarding the pot) is the data required to be persisted back to the blockchain.  Furthermore, players could agree this could be a higher cadence, such as each orbit, to save on fees.
 
-Its hoped, that different clients developed in different programming languages will be built.
+It is hoped that different clients developed in different programming languages will be built.
 
 ### Notation & Conventions
 
-Ids should be represented as GUIDs, and be in lower case
+IDs should be represented as GUIDs, and be in lower case
 All values represented in base16 (hex) should be lower case
-Bitcoin addresses are used the the player identifier
+Bitcoin addresses are used as the player identifier
 Time stamps are EPOCH
 Time durations are in seconds
 Amounts should be in smallest crytocurrency unit, such as Satoshis for Bitcoin
@@ -84,7 +84,7 @@ https://coinb.in/?verify=524104c82b8e2d6ea7f17665c4a1070f340e84d4c02da72ae501857
 
 
 ## The protocol
-Each client connects to one another in the "lobby".  They can then look for players who are looking to start a game, or request to join a running game.  Messages are sent to all players, signed, and referencing the existing message.  Thus like a block chain of messages.
+Each client connects to one another in the "lobby".  They can then search for players who are looking to start a game, or request to join a running game.  Messages are sent to all players, signed, and referencing the existing message.  Thus like a block chain of messages.
 
 - Table reaches consensus on who’s turn to act based off the game contract
 - Table reaches consensus on the legal moves / actions a player can make
@@ -93,7 +93,7 @@ Each client connects to one another in the "lobby".  They can then look for play
 - Repeat
 
 ### Valid methods (See below for sample messages)
-Methods are of two types.  Game play / action messages that determin a players turn intent.  Methods that do not, such as join a table.
+Methods are of two types.  Game play / action messages that determine a player's turn intent.  Methods that do not, such as join a table.
 
 Non action methods
 - Join
@@ -119,16 +119,16 @@ If the game is to be developed using Ethereum contracts:
 1.  The game is defined as an Ethereum contract
 2.  Players agree to the table contract
 3.  Each players actions are defined as inputs for the hand contract
-4.  After the hand has ended, each player verifies the integrity of the hand contract.  Its in everyones best interest to verify correctly [Game Theory Citation]
+4.  After the hand has ended, each player verifies the integrity of the hand contract.  It is in all players' best interests to verify correctly [Game Theory Citation]
 5.  The hand message chain is then executed on the Ethereum network for the pot to be awarded
 
 Less use of Ethereum
 
 1.  Players connect to each other via a P2P network protocol.
 2.  A player either looks to join a table and reviews the contract.
-3.  A player can choose to start a table be defining a table contract.
-4.  Tables should also broad cast their game, status and number of current .players to other tables for better network propagation.
-5.  Leaving the table (closing the channel)
+3.  A player can choose to start a table by defining a table contract.
+4.  Tables should also broadcast their game, status and number of current players to other tables for better network propagation.
+5.  Leaving the table (closing the channel).
 6.  Lightning network will facilitate micro payments "off chain".  The table can agree to bring them "on chain" after n hands are dealt.
 
 ### Aside:  Lightning Network
@@ -139,14 +139,14 @@ Funds are placed into a two-party, multi signature "channel" bitcoin address. Th
 
 The Lightning Network does not require cooperation from the counterparty to exit the channel. Both parties have the option to unilaterally close the channel, ending their relationship. Since all parties have multiple multi signature channels with many different users on this network, one can send a payment to any other party across this network.
 
-By embedding the payment conditional upon knowledge of a secure cryptographic hash, payments can be made across a network of channels without the need for any party to have unilateral custodial ownership of funds. The Lightning Network enables what was previously not possible with trusted financial systems vulnerable to monopolies—without the need for custodial trust and ownership, participation on the network can be dynamic and open for all.
+By embedding the payment conditional upon knowledge of a secure cryptographic hash, payments can be made across a network of channels without the need for any party to have unilateral custodial ownership of funds. The Lightning Network enables what was previously not possible with trusted financial systems vulnerable to monopolies — without the need for custodial trust and ownership, participation on the network can be dynamic and open for all.
 
 [https://lightning.network/lightning-network-summary.pdf]
 
 ## Game as a contract
-In the below *table contract* the below game Texas Holdem is defined as an Enum.  The whole rules of the game could be defined as a contract, thus allowing anyone to develop variations of the game, such as the "Seven Duce" rule, other variations of poker such as Omaha or even other games.  
+In the below *table contract* the below game Texas Holdem is defined as an Enum.  The entire rules of the game could be defined as a contract, thus allowing anyone to develop variations of the game, such as the "Seven Duce" rule, other variations of poker such as Omaha or even other games.  
 
-These are out side the scope of this paper.
+These are outside the scope of this paper.
 
 Ropsten keys (in folder)
 MyEtherWallet password Test12345
@@ -275,7 +275,7 @@ A client will define the table contract and store that locally.  They become the
 ```
 
 ## Joining a Table
-Users send their intent to join a table by the JoinTable method.  This is analogous choosing a seat and sitting down at the table.  Once the table reaches the maximum amount of players, or the players vote to start the table, a multi signature address is created.  The required signatures are part of the agreed table contract.
+Users send their intent to join a table by the JoinTable method.  This is analogous to choosing a seat and sitting down at the table.  Once the table reaches the maximum amount of players, or the players vote to start the table, a multi signature address is created.  The required signatures are part of the agreed table contract.
 
 ```
 {
@@ -299,9 +299,9 @@ All players buying in open a lightning payment channel with the multi signature 
 "Through this network of interconnected payment channels, Lightning provides a scalable, decentralised micropayments solution on top of the Bitcoin blockchain." [https://lightning.network/lightning-network-technical-summary.pdf]
 
 ## Witness nodes
-Game witness can also be allowed or chosen to arbitrate a game.  The witness could also help network propagation.  A witness would be choose by the table starter and a small rake paid to the witness.
+Game witness can also be allowed or chosen to arbitrate a game.  The witness could also help network propagation.  A witness would be chosen by the table starter and a small rake paid to the witness.
 
-There might become a market for reputable witnesses based off a HTTPS DNS endpoint and earn small revenues for witnessing hands.
+There might become a market for reputable witnesses based off a HTTPS DNS endpoint who would earn small revenues for witnessing hands.
 
 ### Process
 1.  Alice and Bob create a 2 of 2 address
@@ -617,7 +617,7 @@ Then each card is encrypted again with the matching key and represented as base6
 - Card[0]=
 
 #### Alice sends the deck to Bob
-As the deck is encrypted, and assumed shuffled, Bob has no way to known the contents of the deck.  Bob the encrypts the deck again and shuffles, and sends the result back to Alice.
+As the deck is encrypted, and assumed shuffled, Bob has no way to know the contents of the deck.  Bob then encrypts the deck again and shuffles, and sends the result back to Alice.
 
 *Example message in xml*
 ```
@@ -645,7 +645,7 @@ Eg SB message in XML
 ```
 
 ### Pre flop
-We know how the distribution of cards that will be dealt.  In Holdem, each card is dealt one at a time, starting left of the dealer (small blind) [Citation 1]
+We know the process for distribution of cards that will be dealt.  In Holdem, each card is dealt one at a time, starting left of the dealer (small blind) [Citation 1]
 
 - Card[0] =\> Bob
 - Card[1] =\> Alice
@@ -695,7 +695,7 @@ b3523718f0231c7c6239a8e5887a4360c888aca08601000000000017a914348de5f6c91078c12849
 ### Award the pot. (Post hand consensus)
 Once the hand has been played, the table then reaches consensus.  The signed game history could then be persisted into an Ethereum block chain referencing previous hands.  
 
-Fee vs Payouts.  The table would also include a parameter when to commit the hand, or hand history, to a chain.  The more frequently it is done the more fees it will incur. 
+Fee vs Payouts.  The table would also include a parameter concerniing when to commit the hand, or hand history, to a chain.  The more frequently it is done the more fees it will incur. 
 
 ## Cashing out
 Closing the channel
